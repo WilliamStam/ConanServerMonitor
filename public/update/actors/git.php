@@ -50,7 +50,7 @@ class git extends \update\updater implements actorsInterface {
 
 
 			$this->_output(parent::DONE,"Success");
-
+			
 		}
 	}
 	function self_update(){

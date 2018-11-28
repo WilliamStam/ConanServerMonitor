@@ -90,27 +90,22 @@ class updater {
 		if ($cfg===false){
 
 
-
-
-
-
-
+			
 			$last_folder = null;
 			$folder = dirname(__FILE__);
-			while (is_dir($folder) && !file_exists($folder.DIRECTORY_SEPARATOR.'config.default.inc.php') && $last_folder != $folder){
+			while (is_dir($folder) && !file_exists($folder.DIRECTORY_SEPARATOR.'config.default.php') && $last_folder != $folder){
 				$last_folder = $folder;
 				$folder = dirname($folder);
 			}
 			$folder = $folder . DIRECTORY_SEPARATOR;
-
-
-			$cfg = array();
-			if (file_exists($folder."config.default.php")) {
-				require($folder.'config.default.php');
+			
+			
+			$cfg = require('config.default.php');
+			if ( file_exists(__DIR__ . DIRECTORY_SEPARATOR . 'config.php') ) {
+				$cfg = $this->magic_array_merge($cfg, require('config.php'));
 			}
-			if (file_exists($folder."config.php")) {
-				require($folder.'config.php');
-			}
+			
+			
 
 
 		}
@@ -220,7 +215,24 @@ class updater {
 
 
 	}
-
+	function magic_array_merge($array1, $array2) {
+		
+		foreach ( $array1 as $key => $value ) {
+			if ( isset($array2[$key]) ) {
+				if ( is_numeric($key) ) {
+					$array1[] = $array2[$key];
+				} else if ( is_array($value) ) {
+					$array1[$key] = self::magic_array_merge($value, $array2[$key]);
+				} else {
+					$array1[$key] = $array2[$key];
+				}
+				unset($array2[$key]);
+			}
+		}
+		
+		
+		return $array1;
+	}
 
 }
 
