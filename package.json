@@ -1,0 +1,29 @@
+{
+  "name": "Munsoft-Dashboard",
+  "version": "0.0.1",
+  "private": true,
+  "minimum-stability": "dev",
+  "devDependencies": {
+    "browser-sync": "latest",
+    "gulp": "github:gulpjs/gulp#4.0",
+    "gulp-autoprefixer": "latest",
+    "gulp-clean-css": "latest",
+    "gulp-composer": "latest",
+    "gulp-concat": "latest",
+    "gulp-duration": "latest",
+    "gulp-eol": "latest",
+    "gulp-git": "latest",
+    "gulp-rename": "latest",
+    "gulp-sass": "latest",
+    "gulp-sourcemaps": "latest",
+    "gulp-total-task-time": "latest",
+    "gulp-uglify": "latest",
+    "merge-stream": "latest",
+    "run-sequence": "latest",
+    "time-require": "latest"
+  },
+  "dependencies": {
+    "gulp-copy": "^4.0.1",
+    "npm": "^5.10.0"
+  }
+}

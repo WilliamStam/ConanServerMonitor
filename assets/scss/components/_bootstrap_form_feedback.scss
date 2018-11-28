@@ -1,0 +1,11 @@
+
+@each $color, $value in $theme-colors {
+  .feedback-#{$color} {
+	.form-control {
+      border-color:$value;
+    }
+	.feedback {
+	  color:$value;
+	}
+  }
+}

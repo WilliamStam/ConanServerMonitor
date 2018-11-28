@@ -1,0 +1,116 @@
+$border-colour: #cccccc;
+$indent: 0.8;
+$indent-unit: 'rem';
+$font-size: 0.7rem;
+#debugger {
+  margin: 0;
+  padding: 0;
+  font-size: $font-size;
+  border: 1px solid $border-colour;
+  border-bottom: none;
+
+  h5 {
+	margin: 0;
+	padding: 0;
+	font-size: $font-size;
+  }
+  ul {
+	margin: 0;
+	padding: 0;
+  }
+
+  li {
+	padding: 0;
+	margin: 0;
+	list-style: none;
+  }
+  div {
+	@extend .d-flex;
+	@extend .w-100;
+	@extend .justify-content-between;
+	@extend .align-self-center;
+	small {
+	  @extend .align-self-center;
+	}
+	a {
+	  @extend .align-self-center;
+	}
+
+  }
+  .label {
+	padding: 2px 7px;
+	padding: 2px 7px;
+	border-bottom: 1px dotted $border-colour;
+	&.hover {
+	  cursor: pointer;
+	  &:hover {
+		background: #deebff;
+	  }
+	}
+  }
+  .warning {
+	color: red;
+	font-weight: bold;
+
+  }
+
+  .debugger-page {
+	& > .label {
+	  background: #fdf5ce;
+
+	}
+
+  }
+  .debugger-general {
+	& > .label {
+	  padding-left: ($indent *1)+ unquote($indent-unit);
+	}
+
+  }
+  .debugger-section {
+	& > .label {
+	  //background: rgba(0, 255, 0,0.3);
+	  padding-left: ($indent *1)+ unquote($indent-unit);
+	}
+
+  }
+  .debugger-class {
+	& > .label {
+	  background: #f1f1f1;
+	  padding-left: ($indent *2)+ unquote($indent-unit);
+	}
+
+  }
+  .debugger-method {
+	& > .label {
+	  //background: rgba(0, 0, 255,0.3);
+	  padding-left: ($indent *3)+ unquote($indent-unit);
+
+	}
+	ul {
+	  display: none;
+	}
+
+  }
+  .debugger-method-from {
+	& > .label {
+	  //background: rgba(0, 255, 255,0.3);
+	  border-bottom: 1px solid $border-colour;
+	  padding-left: ($indent *4)+ unquote($indent-unit);
+	}
+
+  }
+}
+
+
+#debugger-btn {
+  cursor: pointer;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  opacity:0.2;
+  z-index:1050;
+  &:hover {
+	opacity:1;
+  }
+}

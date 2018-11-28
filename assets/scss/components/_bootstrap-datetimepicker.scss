@@ -1,0 +1,19 @@
+@import "../variables";
+@import "./vendor/components/bootstrap-datetimepicker/src/sass/bootstrap-datetimepicker-build.scss";
+
+
+
+  .bootstrap-datetimepicker-widget {
+	table td.day {
+	  width: 20px;
+	  border:1px solid $border-color;
+	}
+	.timepicker-hour {
+	  border:1px solid $border-color;
+	}
+	.timepicker-minute {
+	  border:1px solid $border-color;
+	}
+  }
+
+

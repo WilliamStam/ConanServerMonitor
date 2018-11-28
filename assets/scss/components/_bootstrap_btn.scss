@@ -1,0 +1,29 @@
+.btn {
+  color:$white;
+  &:hover {
+	color:$white;
+  }
+}
+.btn-link {
+  color: $link-color;
+  &:hover {
+	color:$link-hover-color;
+  }
+}
+.btn-light {
+  border-width:$input-btn-border-width;
+  border-color:$gray-300;
+  color:$body-color;
+  &:hover {
+	color:$body-color;
+  }
+}
+.btn-default {
+  @extend .btn-light;
+}
+
+@each $color, $value in $theme-colors {
+  .btn-outline-#{$color} {
+	color:$value;
+  }
+}

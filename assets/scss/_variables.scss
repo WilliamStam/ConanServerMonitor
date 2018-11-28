@@ -1,0 +1,184 @@
+@import "./vendor/twbs/bootstrap/scss/functions";
+@import "./vendor/twbs/bootstrap/scss/mixins";
+@import "./vendor/twbs/bootstrap/scss/variables";
+
+$navy:    #34495e ;
+$blue:    #3498db ;
+$indigo:  #9b59b6 ;
+$purple:  #6f42c1 ;
+$pink:    #e83e8c ;
+$red:     #e74c3c ;
+$deep-red:#c0392b ;
+$orange:  #e67e22 ;
+$yellow:  #ffb606 ;
+$green:   #62cb31 ;
+$teal:    #20c997 ;
+$cyan:    #17a2b8 ;
+
+$primary:       $navy ;
+$secondary:     $indigo ;
+$success:       $green ;
+$info:          $blue ;
+$warning:       $yellow ;
+$danger:        $red ;
+$light:         $white ;
+$dark:          $gray-800 ;
+
+$colors: (
+		"navy":       $navy,
+		"blue":       $blue,
+		"indigo":     $indigo,
+		"purple":     $purple,
+		"pink":       $pink,
+		"red":        $red,
+		"dee-pred":        $deep-red,
+		"orange":     $orange,
+		"yellow":     $yellow,
+		"green":      $green,
+		"teal":       $teal,
+		"cyan":       $cyan,
+		"white":      $white,
+		"gray":       $gray-600,
+		"gray-dark":  $gray-800
+);
+
+
+$theme-colors: (
+		"navy":    $primary,
+		"indigo":  $secondary,
+		"green":    $success,
+		"blue":       $info,
+		"yellow":    $warning,
+		"red":     $danger,
+		"deep-red":     $deep-red,
+		"orange":     $orange,
+		"gray":     $gray-600,
+		"light-gray":     $gray-300,
+
+
+		"primary":    $primary,
+		"secondary":  $secondary,
+		"success":    $success,
+		"info":       $info,
+		"warning":    $warning,
+		"danger":     $danger,
+		"light":      $light,
+		"dark":       $dark
+
+);
+
+$body-bg: #f8f9fb;
+$body-color: #6a6c6f;
+$font-size-base: 1rem;
+
+
+$card-border-color:#eaeaea;
+
+$card-bg: transparent;
+$card-cap-bg: transparent;
+$border-width:1px;
+
+
+$table-border-color: $card-border-color;
+$table-cell-padding:          .75rem !default;
+$table-cell-padding-sm:       .3rem !default;
+
+$table-bg:                    transparent !default;
+$table-accent-bg:             rgba($black, .05) !default;
+$table-hover-bg:              $navy;
+$table-hover-color: $white;
+$table-active-bg:             $table-hover-bg !default;
+
+$table-border-width:          $border-width !default;
+$table-border-color:         $gray-200;
+
+$table-head-bg:               $gray-200 !default;
+$table-head-color:            $gray-700 !default;
+
+$table-dark-bg:               $gray-900 !default;
+$table-dark-accent-bg:        rgba($white, .05) !default;
+$table-dark-hover-bg:         rgba($white, .075) !default;
+$table-dark-border-color:     lighten($gray-900, 7.5%) !default;
+$table-dark-color:            $body-bg !default;
+
+$table-striped-order:         odd !default;
+
+$table-caption-color:         $text-muted !default;
+
+
+
+
+
+
+
+$input-border-color: $gray-300;
+$input-focus-box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6);;
+
+$input-group-addon-border-color:$gray-300;
+
+
+$dropdown-border-color: $card-border-color;
+
+
+$pagination-color: $body-color;
+$pagination-disabled-color: $gray-400;
+
+$component-active-color:      $white;
+$component-active-bg: $primary;
+
+$input-btn-focus-color:       rgba($component-active-bg, .25);
+$input-focus-border-color:              lighten($component-active-bg, 25%);
+$custom-control-indicator-checked-bg:           $component-active-bg;
+$custom-control-indicator-active-bg:            lighten($component-active-bg, 35%);
+$custom-checkbox-indicator-indeterminate-bg:          $component-active-bg;
+$custom-range-thumb-bg:               $component-active-bg;
+$custom-range-thumb-active-bg:        lighten($component-active-bg, 35%);
+$dropdown-link-active-bg:           $component-active-bg;
+$nav-pills-link-active-bg:          $component-active-bg;
+$pagination-active-bg:              $component-active-bg;
+$pagination-active-border-color:              $component-active-bg;
+$list-group-active-bg:              $component-active-bg;
+
+
+$link-color:                $primary;
+$link-hover-color:          darken($link-color, 15%);
+
+//$body-color: $gray-700;
+
+
+
+$breadcrumb-padding-y:              .5rem;
+$breadcrumb-padding-x:              1rem;
+$breadcrumb-item-padding:           .5rem;
+
+$breadcrumb-margin-bottom:          0;
+
+$breadcrumb-bg:                     transparent;
+$breadcrumb-divider-color:          $gray-600;
+$breadcrumb-active-color:           $gray-500;
+
+
+$progress-bg: #f5f5f5;
+
+
+
+
+
+
+
+
+
+// $menu-width: 180px;
+$main-transition: all 0.1s ease-out 0s;
+
+
+$font-family-icon: 'FontAwesome';
+$fa-var-check: "\f00c";
+$check-icon: $fa-var-check;
+
+
+
+$zindex-modal-backdrop:             2040;
+$zindex-modal:                      2050;
+$zindex-popover:                    2060;
+$zindex-tooltip:                    2070;

@@ -1,0 +1,21 @@
+.nav-link {
+  color:$body-color;
+
+}
+
+.nav-tabs {
+
+  .nav-link.active,
+  .nav-item.show .nav-link {
+    color: $nav-tabs-link-active-color;
+  }
+
+}
+
+.nav-pills {
+
+  .nav-link.active,
+  .show > .nav-link {
+    color: $nav-pills-link-active-color;
+  }
+}

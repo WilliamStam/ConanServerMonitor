@@ -1,0 +1,81 @@
+.card {
+  .card-body {
+	background:$white;
+  }
+
+
+}
+
+@each $color, $value in $theme-colors {
+  .card-#{$color} {
+
+	border:$card-border-width solid transparent;
+	.card-header {
+	  border-bottom-color: $value;
+	  border-bottom-width:4px;
+	}
+	.card-body {
+	  border-left: $card-border-width solid $card-border-color;
+	  border-right: $card-border-width solid $card-border-color;
+	  margin-left:-$card-border-width;
+	  margin-right:-$card-border-width;
+	}
+	.card-footer {
+	  border-top-color: $value;
+	  background-color:#f7f9fa;
+	}
+	&.built {
+	  background:$white;
+	  border: $card-border-width solid $card-border-color;
+	}
+  }
+  .card {
+	&.bg-#{$color} {
+	  background:$value;
+	  .card-body {
+		background:$value;
+	  }
+	  .card-footer {
+		background:$value;
+	  }
+	  &.built {
+		background:$value;
+	  }
+	}
+
+	&.border-#{$color} {
+	  .card-body {
+		border-left-color:$value;
+		border-right-color:$value;
+	  }
+	}
+  }
+}
+
+.card-light {
+  .card-header {
+	border-bottom-color: $card-border-color;
+	border-bottom-width:1px;
+  }
+  .card-footer {
+	border-top-color: $card-border-color;
+  }
+}
+.card {
+  .card-header {
+	&:empty {
+	  line-height: 0;
+	  padding:0;
+
+	}
+  }
+  .card-footer {
+	font-size:80%;
+	padding: 0.2rem $card-spacer-x;
+	&:empty {
+	  line-height: 0;
+	  padding:0;
+
+	}
+  }
+}

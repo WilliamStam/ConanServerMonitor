@@ -1,0 +1,20 @@
+.dropdown-checkbox {
+  a input[type='checkbox'] {
+	opacity: 0;
+	z-index: 1;
+	position: absolute;
+	margin-left: -20px;
+  }
+}
+
+
+.filter-form-checkbox-dropdown {
+
+  .dropdown-menu {
+	.checkbox {
+	  input[type='checkbox'] {
+		display:none;
+	  }
+	}
+  }
+}

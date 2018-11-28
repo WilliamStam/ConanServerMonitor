@@ -1,0 +1,19 @@
+
+@each $color, $value in $theme-colors {
+  .nav-tabs-#{$color} {
+	border-color: $value;
+	.nav-link.active, .nav-tabs .nav-item.show .nav-link {
+	  border-top-color: $value;
+	  border-left-color: $value;
+	  border-right-color: $value;
+	}
+  }
+	.tab-content-#{$color} {
+	  .tab-pane {
+		border-color: $value;
+	  }
+
+
+  }
+
+}

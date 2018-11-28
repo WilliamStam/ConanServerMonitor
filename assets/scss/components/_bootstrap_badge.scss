@@ -1,0 +1,14 @@
+.badge {
+  color:$white;
+  &:hover {
+	color:$white;
+  }
+}
+.badge-light {
+  color:$body-color;
+  &:hover {
+    color:$body-color;
+  }
+}
+
+

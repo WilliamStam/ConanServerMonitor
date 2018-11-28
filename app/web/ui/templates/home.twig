@@ -1,0 +1,67 @@
+<section id="page-content">
+	<div id="content-area">
+
+	</div>
+</section>
+
+<script type="text/x-jqote-template" id="template-content">
+	<![CDATA[
+
+	<div class="card" id="left-panel">
+		<div class="card-header">
+			<h1>Chat Log</h1>
+		</div>
+		<div class="card-body">
+			<div id="selectDay"></div>
+		</div>
+		<div class="card-footer">
+			footer
+		</div>
+	</div>
+	<div class="card" id="right-panel">
+
+
+	<div class="card-header">
+		<h2><%= this.label %></h2>
+	</div>
+	<div class="card-body">
+
+		<table class="table table-sm">
+			<% var lastHour = null; %>
+			<% for (var i in this.chats){ %>
+			<% if (lastHour != this.chats[i].timestamp.time.H){ %>
+
+			<tr>
+				<th colspan="3">
+					<h5 class="mb-0"><%= this.chats[i].timestamp.time.H %>:00</h5>
+				</th>
+			</tr>
+
+			<% var lastHour = this.chats[i].timestamp.time.H; %>
+			<% } %>
+
+
+
+			<tr>
+					<td style="width:50px;" class="text-right font-small font-italic">
+						<span style="visibility: hidden;"><%= this.chats[i].timestamp.time.H %>:</span>
+						<%= this.chats[i].timestamp.time.i %>:<%= this.chats[i].timestamp.time.s %>
+					</td>
+					<th style="width:200px;" class="text-right">
+						<%= this.chats[i].player %>
+					</th>
+					<td>
+						<%= this.chats[i].msg %>
+					</td>
+				</tr>
+
+			<% } %>
+		</table>
+	</div>
+	<div class="card-footer">
+		footer
+	</div>
+	</div>
+
+	]]>
+</script>

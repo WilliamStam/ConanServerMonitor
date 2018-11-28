@@ -1,0 +1,294 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="x-ua-compatible" content="ie=edge">
+	<title>{{ page.title }}</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<link rel="stylesheet" href="/assets/{{ BUILD }}/public/css/styles.css"/>
+
+	{% for row in page['css'] %}
+		<link rel="stylesheet" href="{{ row }}"/>
+	{% endfor %}
+	{% if page['template']['css'] %}
+		<link rel="stylesheet" href="{{ page['template']['css']['asset'] }}"/>
+	{% endif %}
+
+
+
+</head>
+<body>
+
+{% include "_header.twig" ignore missing %}
+
+
+{% include page['template']['twig']['filename'] %}
+
+{% include "_footer.twig" ignore missing %}
+
+
+<div class="modal fade" id="modal-form" role="dialog" aria-labelledby="form-modal" aria-hidden="true"></div>
+<div class="modal fade" id="modal-window" role="dialog" aria-labelledby="modal-window" aria-hidden="true"></div>
+
+
+<div class="loadingmask" id="loadingmask">
+	<div class="color-line">
+
+	</div>
+	<div class="spinner">
+		<div class="rect1"></div>
+		<div class="rect2"></div>
+		<div class="rect3"></div>
+		<div class="rect4"></div>
+		<div class="rect5"></div>
+	</div>
+</div>
+
+<span data-toggle="modal" data-target="#debugger-modal" id="debugger-btn">
+	<i class="fas fa-stopwatch"></i>
+</span>
+<!-- Modal -->
+<div class="modal fade" id="debugger-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+
+			<div class="modal-body" style="padding:0;">
+				<ol id="debugger"></ol>
+			</div>
+
+		</div>
+	</div>
+</div>
+
+
+
+
+<script src="/assets/{{ BUILD }}/public/js/libraries.js"></script>
+<script src="{{ page['assets'] }}/js/scripts.js"></script>
+
+
+{% for row in page['js'] %}
+	<script src="{{ row }}" defer></script>
+{% endfor %}
+
+{% if page['template']['js'] %}
+	<script src="{{ page['template']['js']['asset'] }}" defer></script>
+{% endif %}
+
+
+{#{% if page['template_jtmpl']  %}#}
+{#{% include "template/"~page['template_jtmpl'] %}#}
+{#{% endif %}#}
+
+<script type="text/x-jqote-template" id="template-main-progress">
+	<![CDATA[
+
+	<div class="progress" style="max-width:2rem;" title="<%= this.score.score %> out of <%= this.score.total %>">
+		<div class="progress-bar bg-<%= this.score.status %>" role="progressbar" style="height: <%= this.score.percent %>%">
+			<div class="text-<%= this.score.status %>" style="<% if(this.score.percent > 95){ %>margin-top:0; color:#fff!important; z-index: auto; position:relative<% } %>"><%= this.score.percent_ %></div>
+
+		</div>
+	</div>
+	]]>
+</script>
+
+<script type="text/x-jqote-template" id="template-score-card">
+	<![CDATA[
+
+	<div title="<%= this.score.score %> out of <%= this.score.total %>" class="text-<%= this.score.status %>">
+		<%= this.score.percent_ %>
+	</div>
+
+	]]>
+</script>
+
+
+<script type="text/x-jqote-template" id="template-debugger-table">
+	<![CDATA[
+
+	<% if(this){ %>
+	<table class="table">
+
+		<tr>
+			<th>
+				<%= this.page.uri %>(<%= this.page.memory %>)
+			</th>
+			<td><%= this.page.time %></td>
+		</tr>
+		<% for(var row in this.general){ %>
+		<tr>
+			<th>
+				<%= this.general[row].msg %>
+			</th>
+			<td>
+				<%= this.general[row].time %>
+			</td>
+		</tr>
+		<% } %>
+		<% for(var item in this){ %>
+		<% if (item!='page' && item != "general"){ %>
+		<tr>
+			<th colspan="2"><h5><%= item %></h5></th>
+		</tr>
+		<% for(var _class in this[item]){ %>
+		<tr>
+			<th>
+				<%= _class %>
+			</th>
+
+		</tr>
+		<% for(var _method in this[item][_class]){ %>
+		<tr>
+			<th>
+				<%= this[item][_class][_method].count %> | <%= _method %>
+			</th>
+			<td>
+				<%= this[item][_class][_method].time %>
+			</td>
+
+		</tr>
+		<% } %>
+		<% } %>
+		<% } %>
+		<% } %>
+
+
+	</table>
+
+	<% } %>
+
+
+	]]>
+</script>
+
+<script type="text/x-jqote-template" id="template-debugger">
+	<![CDATA[
+
+	<% var SetWarningTime = 0.2; %>
+	<% var SetWarningCount = 1; %>
+	<% var SetWarningMemory = 2097152; %>
+	<% if(this){ %>
+	<li class="debugger-page">
+		<div class="label ">
+			<% if(this.page.url){ %>
+			<a href="<%= this.page.url %>" target="_blank"><strong><%= this.page.uri %></strong></a>
+			<% } else { %>
+			<strong><%= this.page.uri %></strong>
+
+			<% } %>
+
+			<span>
+					<span class="<% if(this.page.memory>SetWarningMemory){ %>warning<% } %>" style="margin-right:30px;">
+						Peak Memory: <%= this.page.memory/1024 %>kb
+					</span>
+					<span class=" <% if(this.page.time>SetWarningTime){ %>warning<% } %>">
+						<%= this.page.time %>
+					</span>
+				</span>
+		</div>
+
+
+		<% for(var row in this.general){ %>
+	<li class="debugger-general">
+		<div class="label ">
+			<h5>
+				<%= this.general[row].msg %>
+			</h5>
+
+			<span class="<% if(this.general[row].time>SetWarningTime){ %>warning<% } %>"><%= this.general[row].time %></span>
+		</div>
+	</li>
+	<% } %>
+
+	<% for(var item in this){ %>
+	<% if (item!='page' && item != "general"){ %>
+	<li class="debugger-section">
+		<div class="label">
+			<h5><%= item %></h5>
+
+		</div>
+		<ul>
+			<% for(var _class in this[item]){ %>
+			<li class="debugger-class">
+				<div class="label  ">
+					<%= _class %>
+
+
+				</div>
+				<ul>
+					<% for(var _method in this[item][_class]){ %>
+					<li class="debugger-method">
+						<div class="label <% if(this[item][_class][_method]['from']){ %> hover<% } %>">
+							<a href="editor://open/?file=<%=this[item][_class][_method]['file'] %>&line=<%=this[item][_class][_method]['line'] %>" class="<% if( this[item][_class][_method].count > SetWarningCount){ %>warning<% } %>"><%= this[item][_class][_method].count %> | <%= _method %></a>
+
+							<span class="<% if(this[item][_class][_method].time>SetWarningTime){ %>warning<% } %>"><%= this[item][_class][_method].time %></span>
+						</div>
+
+						<% if(this[item][_class][_method]['from']){ %>
+						<ul>
+							<% for(var _from in this[item][_class][_method]['from']){ %>
+							<li class="debugger-method-from">
+								<div class="label">
+									<a href="editor://open/?file=<%=this[item][_class][_method]['from'][_from]['file'] %>&line=<%=this[item][_class][_method]['from'][_from]['line'] %>"><%= this[item][_class][_method]['from'][_from]['file'] %> {<%= this[item][_class][_method]['from'][_from]['line'] %>}</a>
+
+
+								</div>
+
+							</li>
+							<% } %>
+						</ul>
+						<% } %>
+					</li>
+					<% } %>
+				</ul>
+			</li>
+			<% } %>
+		</ul>
+	</li>
+	<% } %>
+	<% } %>
+
+
+	<% } %>
+
+
+	]]>
+</script>
+
+
+<script type="text/x-jqote-template" id="template-pagination">
+	<![CDATA[
+
+
+	<ul class="pagination pagination-sm d-flex" style="margin:0;">
+		<% if(!this.hide_fast_jump){ %>
+		<li data-page="1" class="page-item w-100<% if ('1'==this.current) { %> disabled<% } %>">
+			<a href="#" class="page-link"><i class="fas fa-angle-double-left"></i></a>
+		</li>
+		<% } %>
+		<li data-page="<%= this.previous %>" class="page-item w-100<% if ('1'==this.current) { %> disabled<% } %>">
+			<a href="#" class="page-link"><i class="fas fa-angle-left"></i></a>
+		</li>
+		<% for(var i in this.pages) { %>
+		<li data-page="<%= this.pages[i].p %>" class="page-item w-100<% if (this.current==this.pages[i].p) { %> active<% } %>">
+			<a href="#" class="page-link"><%= this.pages[i].p %></a>
+		</li>
+		<% } %>
+		<li data-page="<%= this.next %>" class="page-item w-100<% if (this.last==this.current) { %> disabled<% } %>">
+			<a href="#" class="page-link"><i class="fas fa-angle-right"></i></a>
+		</li>
+		<% if(!this.hide_fast_jump){ %>
+		<li data-page="<%= this.last %>" class="page-item w-100s<% if (this.last==this.current) { %> disabled<% } %>">
+			<a href="#" class="page-link"><i class="fas fa-angle-double-right"></i></a>
+		</li>
+		<% } %>
+	</ul>
+
+
+	]]>
+</script>
+
+<!-- TIMERS -->
+</body>
+</html>

@@ -1,0 +1,248 @@
+{
+	"name": "Munsoft/Boilerplate",
+	"description": "munsoft-f3-boilerplate",
+	"minimum-stability": "dev",
+	"license": "proprietary",
+	"authors": [
+		{
+			"name": "William Stam",
+			"email": "william.stam@itna.co.za"
+		}
+	],
+	"config": {
+		"optimize-autoloader": true,
+		"platform": {
+			"php": "7.2"
+		}
+	},
+	"repositories": [
+		{
+			"type": "package",
+			"package": {
+				"name": "components/jquery-hotkeys",
+				"version": "dev-master",
+				"source": {
+					"url": "https://github.com/jeresig/jquery.hotkeys",
+					"type": "git",
+					"reference": "origin/master"
+				}
+			}
+		},
+		{
+			"type": "package",
+			"package": {
+				"name": "components/jquery-mousewheel",
+				"version": "dev-master",
+				"source": {
+					"url": "https://github.com/jquery/jquery-mousewheel/",
+					"type": "git",
+					"reference": "origin/master"
+				}
+			}
+		},
+
+		{
+			"type": "package",
+			"package": {
+				"name": "components/jQote2",
+				"version": "dev-master",
+				"source": {
+					"url": "https://github.com/aefxx/jQote2",
+					"type": "git",
+					"reference": "origin/master"
+				}
+			}
+		},
+		{
+			"type": "package",
+			"package": {
+				"name": "components/TouchSwipe-Jquery-Plugin",
+				"version": "dev-master",
+				"source": {
+					"url": "https://github.com/mattbryson/TouchSwipe-Jquery-Plugin",
+					"type": "git",
+					"reference": "origin/master"
+				}
+			}
+		},
+		{
+			"type": "package",
+			"package": {
+				"name": "components/bootstrap-datetimepicker",
+				"version": "dev-master",
+				"source": {
+					"url": "https://github.com/Eonasdan/bootstrap-datetimepicker",
+					"type": "git",
+					"reference": "origin/master"
+				}
+			}
+		},
+		{
+			"type": "package",
+			"package": {
+				"name": "components/daterangepicker",
+				"version": "dev-master",
+				"source": {
+					"url": "https://github.com/dangrossman/bootstrap-daterangepicker",
+					"type": "git",
+					"reference": "origin/master"
+				}
+			}
+		},
+		{
+			"type": "package",
+			"package": {
+				"name": "components/HideSeek",
+				"version": "dev-master",
+				"source": {
+					"url": "https://github.com/vdw/HideSeek",
+					"type": "git",
+					"reference": "origin/master"
+				}
+			}
+		},
+		{
+			"type": "package",
+			"package": {
+				"name": "components/toastr",
+				"version": "dev-master",
+				"source": {
+					"url": "https://github.com/CodeSeven/toastr",
+					"type": "git",
+					"reference": "origin/master"
+				}
+			}
+		},
+		{
+			"type": "package",
+			"package": {
+				"name": "mistic100/jQuery.extendext",
+				"version": "dev-master",
+				"source": {
+					"url": "https://github.com/mistic100/jQuery.extendext",
+					"type": "git",
+					"reference": "origin/master"
+				}
+			}
+		},
+		{
+			"type": "package",
+			"package": {
+				"name": "mistic100/sql-parser",
+				"version": "dev-master",
+				"source": {
+					"url": "https://github.com/mistic100/sql-parser",
+					"type": "git",
+					"reference": "origin/master"
+				}
+			}
+		},
+		{
+			"type": "package",
+			"package": {
+				"name": "olado/doT",
+				"version": "dev-master",
+				"source": {
+					"url": "https://github.com/olado/doT",
+					"type": "git",
+					"reference": "origin/master"
+				}
+			}
+		},
+		{
+			"type": "package",
+			"package": {
+				"name": "jevin/Autogrow-Textarea",
+				"version": "dev-master",
+				"source": {
+					"url": "https://github.com/jevin/Autogrow-Textarea",
+					"type": "git",
+					"reference": "origin/master"
+				}
+			}
+		},
+		{
+			"type": "package",
+			"package": {
+				"name": "ilikenwf/nestedSortable",
+				"version": "dev-master",
+				"source": {
+					"url": "https://github.com/ilikenwf/nestedSortable",
+					"type": "git",
+					"reference": "origin/master"
+				}
+			}
+		},
+		{
+			"type": "package",
+			"package": {
+				"name": "limonte/sweetalert2",
+				"version": "dev-master",
+				"source": {
+					"url": "https://github.com/limonte/sweetalert2",
+					"type": "git",
+					"reference": "origin/master"
+				}
+			}
+		},
+		{
+			"type": "package",
+			"package": {
+				"name": "minhur/bootstrap-toggle",
+				"version": "dev-master",
+				"source": {
+					"url": "https://github.com/minhur/bootstrap-toggle/",
+					"type": "git",
+					"reference": "origin/master"
+				}
+			}
+		},
+		{
+			"type": "package",
+			"package": {
+				"name": "d3/d3",
+				"version": "dev-master",
+				"source": {
+					"url": "https://github.com/d3/d3",
+					"type": "git",
+					"reference": "origin/master"
+				}
+			}
+		},
+		{
+			"type": "package",
+			"package": {
+				"name": "FortAwesome/Font-Awesome",
+				"version": "dev-master",
+				"source": {
+					"url": "https://github.com/FortAwesome/Font-Awesome",
+					"type": "git",
+					"reference": "origin/master"
+				}
+			}
+		}
+	],
+	"require": {
+		"php": "^7.2",
+		"ext-json": "*",
+		"ext-pdo": "*",
+		"ext-pdo_mysql": "*",
+		"ext-bcmath": "*",
+
+		"twig/twig": "*",
+		"bcosca/fatfree-core": "dev-master",
+		"ramsey/uuid": "*",
+		"filp/whoops": "*",
+
+		"touki/ftp": "*",
+
+		"components/jquery": "3.*",
+		"components/jqueryui": "1.*",
+		"twbs/bootstrap": "4.*",
+		"FortAwesome/Font-Awesome": "dev-master#5.3.1",
+		"components/jQote2": "dev-master",
+		"ivaynberg/select2": "4.*",
+		"timrwood/moment": "*",
+		"components/toastr": "dev-master"
+	}
+}

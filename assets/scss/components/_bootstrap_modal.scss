@@ -1,0 +1,11 @@
+
+@each $color, $value in $theme-colors {
+  .modal-#{$color} {
+   .modal-header {
+	 border-bottom-color:$value;
+   }
+	.modal-footer {
+	  border-top-color:$value;
+	}
+  }
+}

@@ -1,0 +1,36 @@
+<div id="error-panel">
+	<div class="text-center">
+		<h1 style="font-size:10rem; font-weight:bold;text-shadow:2px 2px 0px #fff, 6px 6px 0px rgba(0,0,0,0.15);">{{ data['STATUS'] }}</h1>
+	</div>
+	<div class="text-center alert alert-danger">
+		{% for row in data['ERRORS'] %}
+			<div>
+				{{ row }}
+			</div>
+
+		{% endfor %}
+	</div>
+
+</div>
+
+
+	<style type="text/css">
+		body {
+
+
+			background:  #F2F2F2;
+
+
+
+
+		}
+
+
+		#error-panel {
+
+			background: url("/assets/{{ BUILD }}/public/images/bg.png") #F2F2F2;
+
+			background-repeat: no-repeat;
+			background-position: top center;
+		}
+	</style>
