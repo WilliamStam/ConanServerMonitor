@@ -6,7 +6,7 @@ namespace {
 	
 	
 	(new \scanner\scan())->getLogs();
-//	(new \scanner\scan())->logs();
+	//	(new \scanner\scan())->logs();
 }
 
 namespace scanner {
@@ -31,8 +31,6 @@ namespace scanner {
 			$this->chat = array();
 			
 			
-		
-			
 		}
 		
 		function __destruct() {
@@ -48,8 +46,6 @@ namespace scanner {
 			$pass = $this->cfg['FTP']['PASSWORD'];
 			
 			
-			
-			
 			$folder = $this->cfg['MEDIA']["FOLDER"] . "logfiles" . DIRECTORY_SEPARATOR;
 			$scanned_directory = array_values(array_map(function($file) {
 				return $file;
@@ -59,16 +55,14 @@ namespace scanner {
 			))));
 			
 			
-			
-			
 			echo "connecting to FTP: {$host}:{$port}\n";
 			
-			$connection = new Connection($host, $user, $pass,$port);
+			$connection = new Connection($host, $user, $pass, $port);
 			$connection->open();
 			
 			$wrapper = new FTPWrapper($connection);
-			$wrapper->pasv(true);
-//			$wrapper->chdir("197.189.254.122_17000");
+			$wrapper->pasv(TRUE);
+			//			$wrapper->chdir("197.189.254.122_17000");
 			
 			echo "getting a list of log files:\n";
 			$remoteFolder = $this->cfg['FTP']['FOLDERS']['LOGS'];
@@ -87,7 +81,7 @@ namespace scanner {
 					}
 					
 					
-					echo "  - ".$file ." - ".$status.PHP_EOL;
+					echo "  - " . $file . " - " . $status . PHP_EOL;
 					
 				}
 				if ( strpos($line, "ConanSandbox.log") ) {
@@ -96,7 +90,7 @@ namespace scanner {
 					$status = "Needed";
 					$files[] = $file;
 					
-					echo "  - ".$file ." - ".$status.PHP_EOL;
+					echo "  - " . $file . " - " . $status . PHP_EOL;
 					
 				}
 				if ( strpos($line, "ServerCommandLog") ) {
@@ -109,7 +103,7 @@ namespace scanner {
 					}
 					
 					
-					echo "  - ".$file ." - ".$status.PHP_EOL;
+					echo "  - " . $file . " - " . $status . PHP_EOL;
 					
 				}
 				
@@ -120,14 +114,14 @@ namespace scanner {
 				
 				foreach ( $files as $file ) {
 					echo "  - downloading {$file} ";
-					$wrapper->get($folder . $file, $remoteFolder . "/". $file);
-					echo " done".PHP_EOL;
+					$wrapper->get($folder . $file, $remoteFolder . "/" . $file);
+					echo " done" . PHP_EOL;
 					
 				}
 				
 			}
 			
-			echo "Closing FTP".PHP_EOL;
+			echo "Closing FTP" . PHP_EOL;
 			
 			
 			//var_dump($files);
@@ -138,7 +132,6 @@ namespace scanner {
 			echo "Starting scan:" . PHP_EOL;
 			
 			$this->logs();
-			
 			
 			
 		}
@@ -158,43 +151,37 @@ namespace scanner {
 				$this->f3->get("DB")->exec("SELECT ID FROM chats LIMIT 0,1");
 				
 			} catch ( \PDOException $e ) {
-				$this->f3->get("DB")->exec("CREATE TABLE `chats` (  `ID` int(11) NOT NULL AUTO_INCREMENT,
-	`msgkey` varchar(50) DEFAULT NULL,
-  	`daykey` varchar(8) DEFAULT NULL,
-	`timestamp` datetime DEFAULT NULL,
-  `player` varchar(200) DEFAULT NULL,
-  `msg` text DEFAULT NULL,
-  `lastscan` datetime DEFAULT NULL,
-	`deleted` tinyint(1) DEFAULT 0,
-	`log` longtext DEFAULT NULL , PRIMARY KEY (`ID`), UNIQUE  KEY (`msgkey`), INDEX (`deleted`), INDEX (`daykey`)) ENGINE = InnoDB;");
+				$this->f3->get("DB")->exec("CREATE TABLE `chats` (  `ID` INT(11) NOT NULL AUTO_INCREMENT,
+	`msgkey` VARCHAR(50) DEFAULT NULL,
+  	`daykey` VARCHAR(8) DEFAULT NULL,
+	`timestamp` DATETIME DEFAULT NULL,
+  `player` VARCHAR(200) DEFAULT NULL,
+  `msg` TEXT DEFAULT NULL,
+  `lastscan` DATETIME DEFAULT NULL,
+	`deleted` TINYINT(1) DEFAULT 0,
+	`log` LONGTEXT DEFAULT NULL , PRIMARY KEY (`ID`), UNIQUE  KEY (`msgkey`), INDEX (`deleted`), INDEX (`daykey`)) ENGINE = InnoDB;");
 			}
-			
 			
 			
 			$this->chatTable = new \DB\SQL\Mapper($this->f3->get("DB"), 'chats');
 			
 			
-			
-			
-			
-			
-			
 			foreach ( $scanned_directory as $file ) {
 				
 				if ( strpos($file, "ConanSandbox") === 0 ) {
-					echo " - {$file}".PHP_EOL;
-					$this->_scan_log_file($folder.$file);
+					echo " - {$file}" . PHP_EOL;
+					$this->_scan_log_file($folder . $file);
 				}
 				
-			
+				
 			}
 			
 			
-			echo "Done, writing log files to ".$this->cfg['MEDIA']["FOLDER"].PHP_EOL;
+			echo "Done, writing log files to " . $this->cfg['MEDIA']["FOLDER"] . PHP_EOL;
 			
-//			file_put_contents($this->cfg['MEDIA']["FOLDER"]."chat.log",implode(PHP_EOL,$this->chat));
-			file_put_contents($this->cfg['MEDIA']["FOLDER"]."ips.log",json_encode($this->ips,JSON_PRETTY_PRINT));
-			file_put_contents($this->cfg['MEDIA']["FOLDER"]."steamids.log",json_encode($this->steamid,JSON_PRETTY_PRINT));
+			//			file_put_contents($this->cfg['MEDIA']["FOLDER"]."chat.log",implode(PHP_EOL,$this->chat));
+			file_put_contents($this->cfg['MEDIA']["FOLDER"] . "ips.log", json_encode($this->ips, JSON_PRETTY_PRINT));
+			file_put_contents($this->cfg['MEDIA']["FOLDER"] . "steamids.log", json_encode($this->steamid, JSON_PRETTY_PRINT));
 			
 			
 			//debug($this->steamid,$this->chat,$this->ips);
@@ -206,7 +193,7 @@ namespace scanner {
 			$file = new \SplFileObject($file);
 			
 			// Loop until we reach the end of the file.
-			while (!$file->eof()) {
+			while ( !$file->eof() ) {
 				// Echo one line from the file.
 				
 				$line = trim($file->fgets());
@@ -216,45 +203,35 @@ namespace scanner {
 				
 				if ( is_numeric($key) ) {
 					
-					if ( strpos($line, "BattlEyeLogging") > 0) {
-//						echo strpos($line, "BattlEyeLogging")."\t".$line.PHP_EOL;
-						$this->_extract_IP_info($line,$key,$timestamp);
+					if ( strpos($line, "BattlEyeLogging") > 0 ) {
+						//						echo strpos($line, "BattlEyeLogging")."\t".$line.PHP_EOL;
+						$this->_extract_IP_info($line, $key, $timestamp);
 					}
-					if ( strpos($line, "ChatWindow") > 0) {
-//						echo strpos($line, "BattlEyeLogging")."\t".$line.PHP_EOL;
-						$this->_extract_chat_info($line,$key,$timestamp);
+					if ( strpos($line, "ChatWindow") > 0 ) {
+						//						echo strpos($line, "BattlEyeLogging")."\t".$line.PHP_EOL;
+						$this->_extract_chat_info($line, $key, $timestamp);
 					}
 					
-				
-				
 					
 				}
-				
-			
-				
-				
 				
 				
 			}
 			
 			// Unset the file to call __destruct(), closing the file handle.
-			$file = null;
+			$file = NULL;
 			
 			
-			
-		
-		
-		
 		}
 		
-		function _extract_IP_info($line,$key,$timestamp) {
+		function _extract_IP_info($line, $key, $timestamp) {
 			
 			$line = trim($line);
 			
 			preg_match('/Player (\#[0-9].*) (.+) (\((.+)\:(.+)\)|disconnected)/', $line, $connected);
 			
 			if ( isset($connected[4]) ) {
-					$this->ips[$connected[4]][$connected[2]][] = $timestamp;
+				$this->ips[$connected[4]][$connected[2]][] = $timestamp;
 				
 			}
 			
@@ -265,13 +242,9 @@ namespace scanner {
 			}
 			
 			
-			
-			
-			
-			
-			
 		}
-		function _extract_chat_info($line,$key,$timestamp) {
+		
+		function _extract_chat_info($line, $key, $timestamp) {
 			
 			$line = trim($line);
 			
@@ -279,14 +252,13 @@ namespace scanner {
 			
 			$datetimetimestamp = date_create_from_format('Y.m.d-H.i.s:u', $timestamp);
 			
-		
 			
 			$values = array(
 				"timestamp" => $datetimetimestamp->format("Y-m-d H:i:s"),
 				"daykey" => $datetimetimestamp->format("Ymd"),
 				"player" => $connected[1],
 				"msg" => $connected[2],
-				"msgkey"=>md5($timestamp."|".$connected[1]."|".$connected[2])
+				"msgkey" => md5($timestamp . "|" . $connected[1] . "|" . $connected[2]),
 			);
 			
 			$this->f3->get("DB")->exec("INSERT INTO chats (`msgkey`,`daykey`,`timestamp`,`player`,`msg`) VALUES (:msgkey,:daykey,:timestamp,:player,:msg) ON DUPLICATE KEY UPDATE lastscan = CURRENT_TIMESTAMP;", array(
@@ -295,16 +267,7 @@ namespace scanner {
 					":daykey" => $values['daykey'],
 					":player" => $values['player'],
 					":msg" => $values['msg'],
-				)
-			);
-			
-			
-			
-			
-			
-			
-			
-			
+				));
 			
 			
 		}

@@ -247,7 +247,6 @@ namespace {
 	$whoops->pushHandler($handler);
 	
 	
-	
 	$whoops->register();
 	
 	
@@ -264,7 +263,6 @@ namespace bootstrap {
 		public function __destruct() {
 		
 		}
-		
 		
 		
 		function run() {
@@ -304,7 +302,6 @@ namespace bootstrap {
 			
 			
 		}
-		
 		
 		
 		function render() {
