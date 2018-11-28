@@ -24,7 +24,7 @@ return [
 	'GIT'=>[
 		'USERNAME' => '',
 		'PASSWORD' => '',
-		'PATH'=>'ssh://git@jira.itna.co.za:7999/ff/v1.git',
+		'PATH'=>'https://github.com/WilliamStam/ConanServerMonitor',
 		"BRANCH"=>'master'
 	],
 	/* TODO: yada yada yada */
@@ -33,5 +33,17 @@ return [
 	/* INFO: path to the storage folder where the system will place logs / cache / temp files etc */
 	'TEMP'=> __DIR__ . DIRECTORY_SEPARATOR . "storage" . DIRECTORY_SEPARATOR,
 	/* INFO: what tags are allowed in text blocks */
-	"TAGS"=>'p,br,b,strong,i,italics,em,h1,h2,h3,h4,h5,h6,div,span,blockquote,pre,cite,ol,li,ul'
+	"TAGS" => 'p,br,b,strong,i,italics,em,h1,h2,h3,h4,h5,h6,div,span,blockquote,pre,cite,ol,li,ul',
+	/* INFO: SERVERS log file FTP */
+	'FTP' => array(
+		'HOST'=>"",
+		'PORT'=>"",
+		'USERNAME'=>"",
+		'PASSWORD' => "",
+		'FOLDERS' => array(
+			'LOGS' => "",
+			'GAME_DB'=>""
+		)
+	
+	)
 ];

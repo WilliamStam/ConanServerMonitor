@@ -33,7 +33,7 @@
 
 			<tr>
 				<th colspan="3">
-					<h5 class="mb-0"><%= this.chats[i].timestamp.time.H %>:00</h5>
+					<h5 class="mb-0" style="color:#b6b6b6;"><%= this.chats[i].timestamp.time.H %>:00</h5>
 				</th>
 			</tr>
 
@@ -43,11 +43,11 @@
 
 
 			<tr>
-					<td style="width:50px;" class="text-right font-small font-italic">
-						<span style="visibility: hidden;"><%= this.chats[i].timestamp.time.H %>:</span>
-						<%= this.chats[i].timestamp.time.i %>:<%= this.chats[i].timestamp.time.s %>
+					<td style="width:70px;color:#ccc;" class="text-center font-small font-italic">
+						<span style=""><%= this.chats[i].timestamp.time.H %></span>
+						:<%= this.chats[i].timestamp.time.i %>:<%= this.chats[i].timestamp.time.s %>
 					</td>
-					<th style="width:200px;" class="text-right">
+					<th style="width:1px;white-space: nowrap" class="text-right">
 						<%= this.chats[i].player %>
 					</th>
 					<td>
