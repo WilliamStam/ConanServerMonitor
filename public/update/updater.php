@@ -100,9 +100,9 @@ class updater {
 			$folder = $folder . DIRECTORY_SEPARATOR;
 			
 			
-			$cfg = require('config.default.php');
-			if ( file_exists(__DIR__ . DIRECTORY_SEPARATOR . 'config.php') ) {
-				$cfg = $this->magic_array_merge($cfg, require('config.php'));
+			$cfg = require($folder.'config.default.php');
+			if ( file_exists($folder . 'config.php') ) {
+				$cfg = $this->magic_array_merge($cfg, require($folder.'config.php'));
 			}
 			
 			
