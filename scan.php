@@ -47,6 +47,12 @@ namespace scanner {
 			
 			
 			$folder = $this->cfg['MEDIA']["FOLDER"] . "logfiles" . DIRECTORY_SEPARATOR;
+			
+			if ( !file_exists($folder) ) {
+				@mkdir($folder, 01777, TRUE);
+			}
+			
+			
 			$scanned_directory = array_values(array_map(function($file) {
 				return $file;
 			}, array_diff(scandir($folder), array(
