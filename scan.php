@@ -40,6 +40,7 @@ namespace scanner {
 		
 		function getLogs() {
 			
+			
 			$host = $this->cfg['FTP']['HOST'];
 			$port = $this->cfg['FTP']['PORT'];
 			$user = $this->cfg['FTP']['USERNAME'];
@@ -138,6 +139,25 @@ namespace scanner {
 			echo "Starting scan:" . PHP_EOL;
 			
 			$this->logs();
+			
+			
+			try {
+				$this->f3->get("DB")->exec("SELECT ID FROM scans LIMIT 0,1");
+				
+			} catch ( \PDOException $e ) {
+				$this->f3->get("DB")->exec("CREATE TABLE `scans` (  `ID` INT(11) NOT NULL AUTO_INCREMENT,
+  	`daykey` VARCHAR(8) DEFAULT NULL,
+	`timestamp` DATETIME DEFAULT NULL,
+  `msg` TEXT DEFAULT NULL,
+	`deleted` TINYINT(1) DEFAULT 0,
+	`log` LONGTEXT DEFAULT NULL , PRIMARY KEY (`ID`), INDEX (`deleted`), INDEX (`daykey`)) ENGINE = InnoDB;");
+			}
+			
+			$this->f3->get("DB")->exec("INSERT INTO scans (daykey,timestamp,msg) VALUES (:daykey,:timestamp,:msg);", array(
+				":daykey" => date("Ymd"),
+				":timestamp" => date("Y-m-d H:i:s"),
+				":msg" => "scan.php",
+			));
 			
 			
 		}
