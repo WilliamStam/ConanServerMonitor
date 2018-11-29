@@ -268,12 +268,12 @@ namespace scanner {
 			);
 			
 			$this->f3->get("DB")->exec("INSERT INTO chats (`msgkey`,`daykey`,`timestamp`,`player`,`msg`) VALUES (:msgkey,:daykey,:timestamp,:player,:msg) ON DUPLICATE KEY UPDATE lastscan = CURRENT_TIMESTAMP;", array(
-					":msgkey" => $values['msgkey'],
-					":timestamp" => $values['timestamp'],
-					":daykey" => $values['daykey'],
-					":player" => $values['player'],
-					":msg" => $values['msg'],
-				));
+				":msgkey" => $values['msgkey'],
+				":timestamp" => $values['timestamp'],
+				":daykey" => $values['daykey'],
+				":player" => $values['player'],
+				":msg" => $values['msg'],
+			));
 			
 			
 		}
