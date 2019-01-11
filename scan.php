@@ -5,6 +5,7 @@ namespace {
 	require_once('bootstrap.php');
 	
 	
+	
 	(new \scanner\scan())->getLogs();
 //		(new \scanner\scan())->logs();
 }
@@ -111,6 +112,16 @@ namespace scanner {
   	 `lastscan` DATETIME DEFAULT NULL,
 	`deleted` TINYINT(1) DEFAULT 0,
 	`log` LONGTEXT DEFAULT NULL , PRIMARY KEY (`ID`), UNIQUE  KEY (`player`), INDEX (`deleted`)) ENGINE = InnoDB;");
+			}
+			try {
+				$this->f3->get("DB")->exec("SELECT ID FROM files LIMIT 0,1");
+				
+			} catch ( \PDOException $e ) {
+				$this->f3->get("DB")->exec("CREATE TABLE `files` (  `ID` INT(11) NOT NULL AUTO_INCREMENT,
+	`timestamp` DATETIME DEFAULT NULL,
+	`file` VARCHAR(200) DEFAULT NULL,
+	 `lastscan` DATETIME DEFAULT NULL,
+	PRIMARY KEY (`ID`), UNIQUE  KEY (`file`)) ENGINE = InnoDB;");
 			}
 			
 		}
@@ -239,19 +250,39 @@ namespace scanner {
 			))));
 			
 			
+			$donefiles = array_map(function($i) {
+				return $i['file'];
+			},$this->f3->get("DB")->exec("SELECT file FROM files"));
 			
-			
-			
-			
-			
-			$this->chatTable = new \DB\SQL\Mapper($this->f3->get("DB"), 'chats');
 			
 			
 			foreach ( $scanned_directory as $file ) {
 				
 				if ( strpos($file, "ConanSandbox") === 0 ) {
+					
+					if ( $file == "ConanSandbox.log" ) {
+						echo " - {$file}" . PHP_EOL;
+						$this->_scan_log_file($folder . $file);
+					} else {
+						
+						if ( in_array($file, $donefiles) ) {
+							echo " - {$file} (skip)" . PHP_EOL;
+						} else {
+							echo " - {$file}" . PHP_EOL;
+							$this->f3->get("DB")->exec("INSERT INTO files (`file`,`timestamp`) VALUES (:file,now()) ON DUPLICATE KEY UPDATE lastscan = CURRENT_TIMESTAMP;", array(
+								":file" => $file,
+							));
+						}
+					}
+					
+					
+					
+					/*
+					
 					echo " - {$file}" . PHP_EOL;
 					$this->_scan_log_file($folder . $file);
+					
+					*/
 				}
 				
 				
