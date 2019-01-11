@@ -11,46 +11,44 @@
 		<div class="card-header">
 			<h1>IP shares</h1>
 		</div>
-		<div class="card-body" style="overflow-y:auto">
+		<div class="card-body p-0" style="overflow-y:auto">
 
-			<table class="table table-sm">
+			<table class="table table-sm ">
 
 
 				<tbody>
 				<% for (var i in this.sharedips){ %>
-
-				<thead>
 				<tr>
-					<th><%= this.sharedips[i].ip %></th>
-
-
-				</tr>
-			</thead>
-				<tbody>
-				<tr>
-
 					<td>
-				<% for (var p in this.sharedips[i].players){ %>
+						<div>
+							<strong><%= this.sharedips[i].ip %></strong>
+						</div>
 
-						<a href="/players/<%= this.sharedips[i].players[p].ID %>">
+						<div>
+							<% for (var p in this.sharedips[i].players){ %>
+
+							<a href="/players/<%= this.sharedips[i].players[p].ID %>">
 							<span class="badge badge-dark mr-1">
 								<%= this.sharedips[i].players[p].player %>
 							</span>
-						</a>
+							</a>
+
+							<% } %>
+						</div>
+	</td>
+</tr>
+
+
+
 
 				<% } %>
-				</td>
-
-
-
-				</tr>
 				</tbody>
-				<% } %>
+
 			</table>
 
 
 		</div>
-		<div class="card-footer">foot</div>
+		<div class="card-footer"></div>
 
 	</div>
 	<div class="card" id="right-panel">
