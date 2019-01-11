@@ -4,10 +4,15 @@
 namespace {
 	require_once('bootstrap.php');
 	
+	//debug($GLOBALS['CFG']);
+	
+	if ( $GLOBALS['CFG']['local'] ) {
+		(new \scanner\scan())->logs();
+	} else {
+		(new \scanner\scan())->getLogs();
+	}
 	
 	
-	(new \scanner\scan())->getLogs();
-//		(new \scanner\scan())->logs();
 }
 
 namespace scanner {
