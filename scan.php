@@ -268,7 +268,8 @@ namespace scanner {
 						if ( in_array($file, $donefiles) ) {
 							echo " - {$file} (skip)" . PHP_EOL;
 						} else {
-							echo " - {$file}" . PHP_EOL;
+							echo " - {$file} (scanning)" . PHP_EOL;
+							$this->_scan_log_file($folder . $file);
 							$this->f3->get("DB")->exec("INSERT INTO files (`file`,`timestamp`) VALUES (:file,now()) ON DUPLICATE KEY UPDATE lastscan = CURRENT_TIMESTAMP;", array(
 								":file" => $file,
 							));
