@@ -260,20 +260,16 @@ namespace scanner {
 				
 				if ( strpos($file, "ConanSandbox") === 0 ) {
 					
-					if ( $file == "ConanSandbox.log" ) {
-						echo " - {$file}" . PHP_EOL;
+					if ( $file == "ConanSandbox.log" ||  !in_array($file, $donefiles)) {
+						echo " - {$file} (scanning)" . PHP_EOL;
 						$this->_scan_log_file($folder . $file);
-					} else {
-						
-						if ( in_array($file, $donefiles) ) {
-							echo " - {$file} (skip)" . PHP_EOL;
-						} else {
-							echo " - {$file} (scanning)" . PHP_EOL;
-							$this->_scan_log_file($folder . $file);
+						if ( $file != "ConanSandbox.log" ) {
 							$this->f3->get("DB")->exec("INSERT INTO files (`file`,`timestamp`) VALUES (:file,now()) ON DUPLICATE KEY UPDATE lastscan = CURRENT_TIMESTAMP;", array(
 								":file" => $file,
 							));
 						}
+					} else {
+						echo " - {$file} (skip)" . PHP_EOL;
 					}
 					
 					
