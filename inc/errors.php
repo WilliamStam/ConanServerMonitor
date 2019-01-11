@@ -132,6 +132,7 @@ class errors {
 			"file" => $file,
 			"line" => $line,
 			"timestamp" => date("Y-m-d H:i:s"),
+			"trace"=>$trace
 		);
 		
 		echo json_encode($payload, JSON_PRETTY_PRINT);

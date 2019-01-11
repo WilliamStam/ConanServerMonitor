@@ -40,6 +40,17 @@ class _ {
 				$app->call("\\app\\web\\controllers\\home->page");
 			}
 		});
+		
+		$this->f3->route("GET /players [ajax]", function($app, $params) {
+			$app->call("\\app\\web\\controllers\\data\\players->page");
+		});
+		$this->f3->route("GET /players [sync]", function($app, $params) {
+			if ( isset($_GET['debug']) ) {
+				$app->call("\\app\\web\\controllers\\data\\players->page");
+			} else {
+				$app->call("\\app\\web\\controllers\\players->page");
+			}
+		});
 
 
 

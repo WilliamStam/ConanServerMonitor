@@ -1,0 +1,104 @@
+<section id="page-content">
+	<div id="content-area">
+
+	</div>
+</section>
+
+<script type="text/x-jqote-template" id="template-content">
+	<![CDATA[
+
+	<div class="card" id="left-panel">
+		<div class="card-header">
+			<h1>IP shares</h1>
+		</div>
+		<div class="card-body">
+
+			<table class="table table-sm">
+
+
+				<tbody>
+				<% for (var i in this.sharedips){ %>
+
+				<thead>
+				<tr>
+					<th><%= this.sharedips[i].ip %></th>
+
+
+				</tr>
+			</thead>
+				<tbody>
+				<tr>
+
+					<td>
+				<% for (var p in this.sharedips[i].players){ %>
+
+						<a href="/players/<%= this.sharedips[i].players[p].ID %>">
+							<span class="badge badge-dark mr-1">
+								<%= this.sharedips[i].players[p].player %>
+							</span>
+						</a>
+
+				<% } %>
+				</td>
+
+
+
+				</tr>
+				</tbody>
+				<% } %>
+			</table>
+
+
+		</div>
+
+	</div>
+	<div class="card" id="right-panel">
+
+
+	<div class="card-header">
+		<h2>Players</h2>
+	</div>
+	<div class="card-body">
+
+		<table class="table table-sm">
+			<thead>
+			<tr>
+				<th>Player</th>
+				<th>Chats</th>
+				<th>IPs</th>
+
+			</tr>
+			</thead>
+
+			<tbody>
+			<% for (var i in this.list){ %>
+			<tr>
+
+				<th>
+					<a href="/players/<%= this.list[i].ID %>">
+						<%= this.list[i].player %>
+					</a>
+					</th>
+				<td>
+						<% if(this.list[i].chats > 0){ %>
+					<%= this.list[i].chats %>
+					<% } %>
+					</td>
+					<td><% if(this.list[i].ips > 0){ %>
+						<%= this.list[i].ips %><% } %>
+					</td>
+
+
+				</tr>
+
+			<% } %>
+			</tbody>
+		</table>
+	</div>
+	<div class="card-footer">
+		footer
+	</div>
+	</div>
+
+	]]>
+</script>

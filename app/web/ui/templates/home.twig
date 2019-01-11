@@ -47,8 +47,9 @@
 						<span style=""><%= this.chats[i].timestamp.time.H %></span>
 						:<%= this.chats[i].timestamp.time.i %>:<%= this.chats[i].timestamp.time.s %>
 					</td>
-					<th style="width:1px;white-space: nowrap" class="text-right">
-						<%= this.chats[i].player %>
+				<th style="width:1px;white-space: nowrap" class="text-right">
+					<a href="/players/<%= this.chats[i].playerID %>">
+						<%= this.chats[i].player %></a>
 					</th>
 					<td>
 						<%= this.chats[i].msg %>

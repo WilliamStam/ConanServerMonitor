@@ -154,16 +154,28 @@ function debug() {
 }
 
 function test_array($array) {
-	header("Content-Type: application/json");
 	$f3 = \Base::instance();
+	if ( $f3->CLI ) {
+		echo PHP_EOL.json_encode($array,JSON_PRETTY_PRINT).PHP_EOL;
+		exit();
+	}
+	
+	
+	header("Content-Type: application/json");
+	
 	$f3->set("__testJson", TRUE);
 	echo json_encode($array, JSON_PRETTY_PRINT);
 	exit();
 }
 
 function test_string($array) {
-	header("Content-Type: text/html");
 	$f3 = \Base::instance();
+	
+	if ( $f3->CLI ) {
+		echo PHP_EOL.$array.PHP_EOL;
+		exit();
+	}
+	header("Content-Type: text/html");
 	$f3->set("__testString", TRUE);
 	echo $array;
 	exit();

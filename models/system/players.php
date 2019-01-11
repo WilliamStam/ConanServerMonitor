@@ -6,14 +6,14 @@ use \timer as timer;
 use \models\core\db as DB;
 
 
-class chats extends \models\models {
+class players extends \models\models {
 	
 	private static $instance;
 	
 	function __construct() {
 		parent::__construct();
 		
-		$this->table = "chats";
+		$this->table = "players";
 		$this->result = array();
 	}
 	
@@ -29,7 +29,9 @@ class chats extends \models\models {
 		$timer = new timer();
 		$where = $this->table . ".ID = '$ID'";
 		$result = array();
-	
+		
+		
+		
 		
 		$result = $this->getData($where, $this->table . ".ID DESC", "0,1", $options);
 		
@@ -120,7 +122,7 @@ class chats extends \models\models {
 		if ( isset($options['select']) ) {
 			$select = $options['select'];
 		} else {
-			$select = "{$this->table}.*, players.player";
+			$select = "*";
 			
 			
 		}
@@ -128,8 +130,7 @@ class chats extends \models\models {
 		
 		$sql = "
 			 SELECT $select
-				FROM {$this->table}
-				 INNER JOIN players ON players.ID = {$this->table}.playerID
+			 FROM {$this->table}
 			 
 			$where_ 
 			$groupby

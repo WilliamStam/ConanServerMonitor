@@ -5,8 +5,8 @@ namespace {
 	require_once('bootstrap.php');
 	
 	
-	(new \scanner\scan())->getLogs();
-	//	(new \scanner\scan())->logs();
+//	(new \scanner\scan())->getLogs();
+		(new \scanner\scan())->logs();
 }
 
 namespace scanner {
@@ -26,10 +26,11 @@ namespace scanner {
 			$this->f3 = \Base::instance();
 			$this->cfg = $this->f3->get("CFG");
 			
+			$this->playersIndex = array();
 			$this->ips = array();
-			$this->steamid = array();
-			$this->chat = array();
 			
+			$this->tables();
+			$this->getPlayers();
 			
 		}
 		
@@ -38,6 +39,81 @@ namespace scanner {
 		
 		}
 		
+		function tables() {
+			try {
+				$this->f3->get("DB")->exec("SELECT ID FROM scans LIMIT 0,1");
+				
+			} catch ( \PDOException $e ) {
+				$this->f3->get("DB")->exec("CREATE TABLE `scans` (  `ID` INT(11) NOT NULL AUTO_INCREMENT,
+  	`daykey` VARCHAR(8) DEFAULT NULL,
+	`timestamp` DATETIME DEFAULT NULL,
+  `msg` TEXT DEFAULT NULL,
+	`deleted` TINYINT(1) DEFAULT 0,
+	`log` LONGTEXT DEFAULT NULL , PRIMARY KEY (`ID`), INDEX (`deleted`), INDEX (`daykey`)) ENGINE = InnoDB;");
+			}
+			
+			
+			try {
+				$this->f3->get("DB")->exec("SELECT ID FROM chats LIMIT 0,1");
+				
+			} catch ( \PDOException $e ) {
+				$this->f3->get("DB")->exec("CREATE TABLE `chats` (  `ID` INT(11) NOT NULL AUTO_INCREMENT,
+	`msgkey` VARCHAR(50) DEFAULT NULL,
+  	`daykey` VARCHAR(8) DEFAULT NULL,
+	`timestamp` DATETIME DEFAULT NULL,
+  `playerID` INT(11) DEFAULT NULL,
+  `msg` TEXT DEFAULT NULL,
+  `lastscan` DATETIME DEFAULT NULL,
+	`deleted` TINYINT(1) DEFAULT 0,
+	`log` LONGTEXT DEFAULT NULL , PRIMARY KEY (`ID`), UNIQUE  KEY (`msgkey`), INDEX (`deleted`), INDEX (`daykey`), INDEX (`playerID`)) ENGINE = InnoDB;");
+			}
+			
+			
+			
+			try {
+				$this->f3->get("DB")->exec("SELECT ID FROM ips LIMIT 0,1");
+				
+			} catch ( \PDOException $e ) {
+				$this->f3->get("DB")->exec("CREATE TABLE `ips` (  `ID` INT(11) NOT NULL AUTO_INCREMENT,
+	`msgkey` VARCHAR(50) DEFAULT NULL,
+  	`daykey` VARCHAR(8) DEFAULT NULL,
+	`timestamp` DATETIME DEFAULT NULL,
+  `playerID` INT(11) DEFAULT NULL,
+  `ip` VARCHAR(200) DEFAULT NULL,
+  `port` VARCHAR(100) DEFAULT NULL,
+  `lastscan` DATETIME DEFAULT NULL,
+	`deleted` TINYINT(1) DEFAULT 0,
+	`log` LONGTEXT DEFAULT NULL , PRIMARY KEY (`ID`), UNIQUE  KEY (`msgkey`), INDEX (`deleted`), INDEX (`daykey`), INDEX (`playerID`)) ENGINE = InnoDB;");
+			}
+			try {
+				$this->f3->get("DB")->exec("SELECT ID FROM steamids LIMIT 0,1");
+				
+			} catch ( \PDOException $e ) {
+				$this->f3->get("DB")->exec("CREATE TABLE `steamids` (  `ID` INT(11) NOT NULL AUTO_INCREMENT,
+	`msgkey` VARCHAR(50) DEFAULT NULL,
+  	`daykey` VARCHAR(8) DEFAULT NULL,
+	`timestamp` DATETIME DEFAULT NULL,
+  `playerID` INT(11) DEFAULT NULL,
+  `steamid` VARCHAR(200) DEFAULT NULL,
+  `lastscan` DATETIME DEFAULT NULL,
+	`deleted` TINYINT(1) DEFAULT 0,
+	`log` LONGTEXT DEFAULT NULL , PRIMARY KEY (`ID`), UNIQUE  KEY (`msgkey`), INDEX (`deleted`), INDEX (`daykey`), INDEX (`playerID`)) ENGINE = InnoDB;");
+			}
+			
+			
+			try {
+				$this->f3->get("DB")->exec("SELECT ID FROM players LIMIT 0,1");
+				
+			} catch ( \PDOException $e ) {
+				$this->f3->get("DB")->exec("CREATE TABLE `players` (  `ID` INT(11) NOT NULL AUTO_INCREMENT,
+	`timestamp` DATETIME DEFAULT NULL,
+	`player` VARCHAR(200) DEFAULT NULL,
+  	 `lastscan` DATETIME DEFAULT NULL,
+	`deleted` TINYINT(1) DEFAULT 0,
+	`log` LONGTEXT DEFAULT NULL , PRIMARY KEY (`ID`), UNIQUE  KEY (`player`), INDEX (`deleted`)) ENGINE = InnoDB;");
+			}
+			
+		}
 		function getLogs() {
 			
 			
@@ -141,17 +217,7 @@ namespace scanner {
 			$this->logs();
 			
 			
-			try {
-				$this->f3->get("DB")->exec("SELECT ID FROM scans LIMIT 0,1");
-				
-			} catch ( \PDOException $e ) {
-				$this->f3->get("DB")->exec("CREATE TABLE `scans` (  `ID` INT(11) NOT NULL AUTO_INCREMENT,
-  	`daykey` VARCHAR(8) DEFAULT NULL,
-	`timestamp` DATETIME DEFAULT NULL,
-  `msg` TEXT DEFAULT NULL,
-	`deleted` TINYINT(1) DEFAULT 0,
-	`log` LONGTEXT DEFAULT NULL , PRIMARY KEY (`ID`), INDEX (`deleted`), INDEX (`daykey`)) ENGINE = InnoDB;");
-			}
+			
 			
 			$this->f3->get("DB")->exec("INSERT INTO scans (daykey,timestamp,msg) VALUES (:daykey,:timestamp,:msg);", array(
 				":daykey" => date("Ymd"),
@@ -173,20 +239,9 @@ namespace scanner {
 			))));
 			
 			
-			try {
-				$this->f3->get("DB")->exec("SELECT ID FROM chats LIMIT 0,1");
-				
-			} catch ( \PDOException $e ) {
-				$this->f3->get("DB")->exec("CREATE TABLE `chats` (  `ID` INT(11) NOT NULL AUTO_INCREMENT,
-	`msgkey` VARCHAR(50) DEFAULT NULL,
-  	`daykey` VARCHAR(8) DEFAULT NULL,
-	`timestamp` DATETIME DEFAULT NULL,
-  `player` VARCHAR(200) DEFAULT NULL,
-  `msg` TEXT DEFAULT NULL,
-  `lastscan` DATETIME DEFAULT NULL,
-	`deleted` TINYINT(1) DEFAULT 0,
-	`log` LONGTEXT DEFAULT NULL , PRIMARY KEY (`ID`), UNIQUE  KEY (`msgkey`), INDEX (`deleted`), INDEX (`daykey`)) ENGINE = InnoDB;");
-			}
+			
+			
+			
 			
 			
 			$this->chatTable = new \DB\SQL\Mapper($this->f3->get("DB"), 'chats');
@@ -202,16 +257,30 @@ namespace scanner {
 				
 			}
 			
-			
-			echo "Done, writing log files to " . $this->cfg['MEDIA']["FOLDER"] . PHP_EOL;
-			
-			//			file_put_contents($this->cfg['MEDIA']["FOLDER"]."chat.log",implode(PHP_EOL,$this->chat));
-			file_put_contents($this->cfg['MEDIA']["FOLDER"] . "ips.log", json_encode($this->ips, JSON_PRETTY_PRINT));
-			file_put_contents($this->cfg['MEDIA']["FOLDER"] . "steamids.log", json_encode($this->steamid, JSON_PRETTY_PRINT));
+			debug($this->ips);
+			echo "Done";
 			
 			
-			//debug($this->steamid,$this->chat,$this->ips);
+		}
+		
+		function getPlayers() {
+			$this->players = $this->f3->get("DB")->exec("SELECT * FROM players");
+			$this->playersIndex = arrays::array_key_index("player", $this->players);
+		}
+		function player($player) {
 			
+			
+			if ( isset($this->playersIndex[$player]) ) {
+				return $this->playersIndex[$player]['ID'];
+			} else {
+				$this->f3->get("DB")->exec("INSERT INTO players (`player`,`timestamp`) VALUES (:player,now()) ON DUPLICATE KEY UPDATE lastscan = CURRENT_TIMESTAMP;", array(
+					":player" => $player,
+				));
+				
+				$this->getPlayers();
+				
+				return $this->playersIndex[$player]['ID'];
+			}
 			
 		}
 		
@@ -251,20 +320,57 @@ namespace scanner {
 		}
 		
 		function _extract_IP_info($line, $key, $timestamp) {
+			$datetimetimestamp = date_create_from_format('Y.m.d-H.i.s:u', $timestamp);
+			
 			
 			$line = trim($line);
 			
-			preg_match('/Player (\#[0-9].*) (.+) (\((.+)\:(.+)\)|disconnected)/', $line, $connected);
+			preg_match('/Player (\#[0-9] *) (.+) (\((.+)\:(.+)\)|disconnected)/', $line, $connected);
 			
 			if ( isset($connected[4]) ) {
-				$this->ips[$connected[4]][$connected[2]][] = $timestamp;
+				$PLAYERid = $this->player($connected[2]);
 				
+				$key = md5(  $PLAYERid. "|" . $connected[4]);
+				
+				$this->f3->get("DB")->exec("INSERT INTO ips (`msgkey`,`daykey`,`timestamp`,`playerID`,`ip`) VALUES (:msgkey,:daykey,:timestamp,:playerID,:ip) ON DUPLICATE KEY UPDATE lastscan = CURRENT_TIMESTAMP;", array(
+					":msgkey" => $key,
+					":daykey" => $datetimetimestamp->format("Ymd"),
+					":timestamp" => $datetimetimestamp->format("Y-m-d H:i:s"),
+					":playerID" => $PLAYERid,
+					":ip" => $connected[4],
+				));
+				
+				$this->ips[$connected[2]][] = $line;
 			}
+			
+			
+			
+			
 			
 			
 			preg_match('/SteamID (.*) and name \'(.*)\'/', $line, $d);
 			if ( isset($d[1]) ) {
-				$this->steamid[$d[1]][$d[2]][] = $timestamp;
+			//	$this->steamid[$d[1]][$d[2]][] = $timestamp;
+				
+				$values = array(
+					"timestamp" => $datetimetimestamp->format("Y-m-d H:i:s"),
+					"daykey" => $datetimetimestamp->format("Ymd"),
+					"player" => $d[2],
+					"steamid" => $d[1],
+					"msgkey" => md5( $this->player($d[2])."|".$d[1]),
+				);
+				
+				$this->f3->get("DB")->exec("INSERT INTO steamids (`msgkey`,`daykey`,`timestamp`,`playerID`,`steamid`) VALUES (:msgkey,:daykey,:timestamp,:playerID,:steamid) ON DUPLICATE KEY UPDATE lastscan = CURRENT_TIMESTAMP;", array(
+					":msgkey" => $values['msgkey'],
+					":daykey" => $values['daykey'],
+					":timestamp" => $values['timestamp'],
+					":playerID" => $this->player($values['player']),
+					":steamid" => $values['steamid']
+				));
+				
+				
+//				debug($d);
+				
 			}
 			
 			
@@ -274,6 +380,7 @@ namespace scanner {
 			
 			$line = trim($line);
 			
+//			debug($line);
 			preg_match('/Character (.+) said\: (.*)/', $line, $connected);
 			
 			$datetimetimestamp = date_create_from_format('Y.m.d-H.i.s:u', $timestamp);
@@ -286,12 +393,12 @@ namespace scanner {
 				"msg" => $connected[2],
 				"msgkey" => md5($timestamp . "|" . $connected[1] . "|" . $connected[2]),
 			);
-			
-			$this->f3->get("DB")->exec("INSERT INTO chats (`msgkey`,`daykey`,`timestamp`,`player`,`msg`) VALUES (:msgkey,:daykey,:timestamp,:player,:msg) ON DUPLICATE KEY UPDATE lastscan = CURRENT_TIMESTAMP;", array(
+//			debug($values);
+			$this->f3->get("DB")->exec("INSERT INTO chats (`msgkey`,`daykey`,`timestamp`,`playerID`,`msg`) VALUES (:msgkey,:daykey,:timestamp,:playerID,:msg) ON DUPLICATE KEY UPDATE lastscan = CURRENT_TIMESTAMP;", array(
 				":msgkey" => $values['msgkey'],
-				":timestamp" => $values['timestamp'],
 				":daykey" => $values['daykey'],
-				":player" => $values['player'],
+				":timestamp" => $values['timestamp'],
+				":playerID" => $this->player($values['player']),
 				":msg" => $values['msg'],
 			));
 			

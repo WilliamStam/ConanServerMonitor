@@ -5,17 +5,11 @@ var jsfile = [
 	'vendor/ivaynberg/select2/dist/js/select2.full.min.js',
 	'vendor/twbs/bootstrap/dist/js/bootstrap.bundle.js',
 	'vendor/components/jQote2/jquery.jqote2.js',
-
-
 	'vendor/components/toastr/toastr.js',
-
-
 	'assets/js/plugins/jquery.getData.js',
 	'assets/js/plugins/jquery.ba-dotimeout.min.js',
 	'assets/js/plugins/jquery.ba-bbq.js',
 	'assets/js/plugins/jquery.highlight.js',
-
-
 ];
 
 

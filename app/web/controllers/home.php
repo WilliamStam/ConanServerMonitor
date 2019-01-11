@@ -15,15 +15,15 @@ class home extends _ {
 		
 		$key = isset($_GET['day']) ? $_GET['day'] : date("Ymd");
 		
-		$days = array_map(function($item){ return array("key"=>$item['daykey'],"label"=>date("d M y",strtotime(substr_replace(substr_replace($item['daykey'], '-', 4,0), '-', 7,0)))); }, models\system\chats::getInstance()->getAll("", "timestamp ASC", "", array("select" => "DISTINCT daykey")));
+		$days = array_map(function($item){ return array("key"=>$item['daykey'],"label"=>date("d M y",strtotime(substr_replace(substr_replace($item['daykey'], '-', 4,0), '-', 7,0)))); }, models\system\chats::getInstance()->getAll("", "chats.timestamp ASC", "", array("select" => "DISTINCT chats.daykey")));
 		
 		//debug($days);
 		
-		$chats = models\system\chats::getInstance()->getAll("daykey = :key","timestamp ASC","",array("args"=>array(":key"=>$key)));
+		$chats = models\system\chats::getInstance()->getAll("chats.daykey = :key","chats.timestamp ASC","",array("args"=>array(":key"=>$key)));
 		
 		$tmpl = new \template("template.twig");
 		$tmpl->page = array(
-			"title"=>"Home Page!",
+			"title"=>"Server Global Chat",
 		);
 		
 		$tmpl->days = $days;

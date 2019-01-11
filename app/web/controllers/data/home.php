@@ -23,13 +23,13 @@ class home extends _ {
 		
 		$days = array_map(function($item) {
 			return  $item['daykey'];
-		}, models\system\chats::getInstance()->getAll("", "timestamp ASC", "", array("select" => "DISTINCT daykey")));
+		}, models\system\chats::getInstance()->getAll("", "chats.timestamp ASC", "", array("select" => "DISTINCT chats.daykey")));
 		
 		
 		$return['days'] = $days;
 		
 		
-		$return['chats'] = models\system\chats::getInstance()->getAll("daykey = :key", "timestamp ASC", "", array("args" => array(":key" => $key)));
+		$return['chats'] = models\system\chats::getInstance()->getAll("chats.daykey = :key", "chats.timestamp ASC", "", array("args" => array(":key" => $key)));
 		
 		
 		
