@@ -5,8 +5,8 @@ namespace {
 	require_once('bootstrap.php');
 	
 	
-//	(new \scanner\scan())->getLogs();
-		(new \scanner\scan())->logs();
+	(new \scanner\scan())->getLogs();
+//		(new \scanner\scan())->logs();
 }
 
 namespace scanner {
@@ -257,7 +257,7 @@ namespace scanner {
 				
 			}
 			
-			debug($this->ips);
+//			debug($this->ips);
 			echo "Done";
 			
 			
