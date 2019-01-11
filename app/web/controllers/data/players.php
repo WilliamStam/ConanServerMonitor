@@ -42,7 +42,7 @@ class players extends _ {
 	)
 ),']') AS players, count(players.ID) as c FROM `ips` LEFT JOIN players ON players.ID = ips.playerID
 GROUP BY ip
-HAVING c > 1");
+HAVING c > 1 ORDER BY ips.ID DESC");
 		
 //		debug($sharedips);
 		
