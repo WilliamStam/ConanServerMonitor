@@ -3,11 +3,11 @@
 
 namespace {
 	require_once('bootstrap.php');
-	
+	require __DIR__ . './inc/SourceQuery/bootstrap.php';
 	//debug($GLOBALS['CFG']);
 	
 	if ( $GLOBALS['CFG']['local'] ) {
-		(new \scanner\scan())->logs();
+		(new \scanner\scan())->rcon();
 	} else {
 		(new \scanner\scan())->getLogs();
 	}
@@ -17,11 +17,10 @@ namespace {
 
 namespace scanner {
 	
-	use \strings;
-	use \arrays;
-	use \timer;
+	use arrays;
 	use Touki\FTP\Connection\Connection;
 	use Touki\FTP\FTPWrapper;
+	use xPaw\SourceQuery\SourceQuery;
 	
 	class scan {
 		private $cfg;
@@ -44,6 +43,38 @@ namespace scanner {
 		
 		
 		}
+		
+		function rcon() {
+			
+			
+			// xPaw\SourceQuery\SourceQuery;
+			
+			
+			define('SQ_SERVER_ADDR', $this->cfg['RCON']['HOST']);
+			define('SQ_SERVER_PORT', (int)$this->cfg['RCON']['PORT']);
+			define('SQ_TIMEOUT', (int)$this->cfg['RCON']['TIMEOUT']);
+			define('SQ_ENGINE', SourceQuery::SOURCE);
+			
+			
+			
+			$Query = new SourceQuery();
+			
+			try {
+				$Query->Connect(SQ_SERVER_ADDR, SQ_SERVER_PORT, SQ_TIMEOUT, SQ_ENGINE);
+				
+				$Query->SetRconPassword($this->cfg['RCON']['PASSWORD']);
+				
+				
+				var_dump($Query->Rcon('sql SELECT * FROM _Players ORDER BY NAME ASC LIMIT 0,10'));
+			} catch ( Exception $e ) {
+				echo $e->getMessage();
+			} finally {
+				$Query->Disconnect();
+			}
+			
+			
+		}
+		
 		
 		function tables() {
 			try {
@@ -73,7 +104,6 @@ namespace scanner {
 	`deleted` TINYINT(1) DEFAULT 0,
 	`log` LONGTEXT DEFAULT NULL , PRIMARY KEY (`ID`), UNIQUE  KEY (`msgkey`), INDEX (`deleted`), INDEX (`daykey`), INDEX (`playerID`)) ENGINE = InnoDB;");
 			}
-			
 			
 			
 			try {
@@ -130,6 +160,7 @@ namespace scanner {
 			}
 			
 		}
+		
 		function getLogs() {
 			
 			
@@ -233,8 +264,6 @@ namespace scanner {
 			$this->logs();
 			
 			
-			
-			
 			$this->f3->get("DB")->exec("INSERT INTO scans (daykey,timestamp,msg) VALUES (:daykey,:timestamp,:msg);", array(
 				":daykey" => date("Ymd"),
 				":timestamp" => date("Y-m-d H:i:s"),
@@ -257,15 +286,14 @@ namespace scanner {
 			
 			$donefiles = array_map(function($i) {
 				return $i['file'];
-			},$this->f3->get("DB")->exec("SELECT file FROM files"));
-			
+			}, $this->f3->get("DB")->exec("SELECT file FROM files"));
 			
 			
 			foreach ( $scanned_directory as $file ) {
 				
 				if ( strpos($file, "ConanSandbox") === 0 ) {
 					
-					if ( $file == "ConanSandbox.log" ||  !in_array($file, $donefiles)) {
+					if ( $file == "ConanSandbox.log" || !in_array($file, $donefiles) ) {
 						echo " - {$file} (scanning)" . PHP_EOL;
 						$this->_scan_log_file($folder . $file);
 						if ( $file != "ConanSandbox.log" ) {
@@ -276,7 +304,6 @@ namespace scanner {
 					} else {
 						echo " - {$file} (skip)" . PHP_EOL;
 					}
-					
 					
 					
 					/*
@@ -290,7 +317,7 @@ namespace scanner {
 				
 			}
 			
-//			debug($this->ips);
+			//			debug($this->ips);
 			echo "Done";
 			
 			
@@ -300,6 +327,7 @@ namespace scanner {
 			$this->players = $this->f3->get("DB")->exec("SELECT * FROM players");
 			$this->playersIndex = arrays::array_key_index("player", $this->players);
 		}
+		
 		function player($player) {
 			
 			
@@ -363,7 +391,7 @@ namespace scanner {
 			if ( isset($connected[4]) ) {
 				$PLAYERid = $this->player($connected[2]);
 				
-				$key = md5(  $PLAYERid. "|" . $connected[4]);
+				$key = md5($PLAYERid . "|" . $connected[4]);
 				
 				$this->f3->get("DB")->exec("INSERT INTO ips (`msgkey`,`daykey`,`timestamp`,`playerID`,`ip`) VALUES (:msgkey,:daykey,:timestamp,:playerID,:ip) ON DUPLICATE KEY UPDATE lastscan = CURRENT_TIMESTAMP;", array(
 					":msgkey" => $key,
@@ -377,20 +405,16 @@ namespace scanner {
 			}
 			
 			
-			
-			
-			
-			
 			preg_match('/SteamID (.*) and name \'(.*)\'/', $line, $d);
 			if ( isset($d[1]) ) {
-			//	$this->steamid[$d[1]][$d[2]][] = $timestamp;
+				//	$this->steamid[$d[1]][$d[2]][] = $timestamp;
 				
 				$values = array(
 					"timestamp" => $datetimetimestamp->format("Y-m-d H:i:s"),
 					"daykey" => $datetimetimestamp->format("Ymd"),
 					"player" => $d[2],
 					"steamid" => $d[1],
-					"msgkey" => md5( $this->player($d[2])."|".$d[1]),
+					"msgkey" => md5($this->player($d[2]) . "|" . $d[1]),
 				);
 				
 				$this->f3->get("DB")->exec("INSERT INTO steamids (`msgkey`,`daykey`,`timestamp`,`playerID`,`steamid`) VALUES (:msgkey,:daykey,:timestamp,:playerID,:steamid) ON DUPLICATE KEY UPDATE lastscan = CURRENT_TIMESTAMP;", array(
@@ -398,11 +422,11 @@ namespace scanner {
 					":daykey" => $values['daykey'],
 					":timestamp" => $values['timestamp'],
 					":playerID" => $this->player($values['player']),
-					":steamid" => $values['steamid']
+					":steamid" => $values['steamid'],
 				));
 				
 				
-//				debug($d);
+				//				debug($d);
 				
 			}
 			
@@ -413,7 +437,7 @@ namespace scanner {
 			
 			$line = trim($line);
 			
-//			debug($line);
+			//			debug($line);
 			preg_match('/Character (.+) said\: (.*)/', $line, $connected);
 			
 			$datetimetimestamp = date_create_from_format('Y.m.d-H.i.s:u', $timestamp);
@@ -426,7 +450,7 @@ namespace scanner {
 				"msg" => $connected[2],
 				"msgkey" => md5($timestamp . "|" . $connected[1] . "|" . $connected[2]),
 			);
-//			debug($values);
+			//			debug($values);
 			$this->f3->get("DB")->exec("INSERT INTO chats (`msgkey`,`daykey`,`timestamp`,`playerID`,`msg`) VALUES (:msgkey,:daykey,:timestamp,:playerID,:msg) ON DUPLICATE KEY UPDATE lastscan = CURRENT_TIMESTAMP;", array(
 				":msgkey" => $values['msgkey'],
 				":daykey" => $values['daykey'],

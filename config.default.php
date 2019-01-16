@@ -46,5 +46,11 @@ return [
 		),
 	
 	),
+	'RCON' => array(
+		'HOST' => "",
+		'PORT' => "",
+		'TIMEOUT' => 5,
+		'PASSWORD' => "",
+	),
 	'local'=>false
 ];
